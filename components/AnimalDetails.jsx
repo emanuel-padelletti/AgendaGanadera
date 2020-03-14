@@ -14,23 +14,26 @@ import CampoContext from '../contexts/camposContext';
 //  DIRECTAMENTE VOY A UTILIZAR EL CONTEXT DONDE LE PASO LAS FUNCIONES EN LAS QUE PUEDE SEGUN EL VALUE 'Vacas' DETERMINAR cantidad
 //  otro dia cambiar esto y los detalles de los animales asociarlos directamente con el context y no pasarlo desde loteDetails capaz hay problemas ahi
 
-const AnimalDetails = ({ cant, title, id, name }) => {
-  const [cantidad, setCantidad] = useState(parseInt(cant));
-  const { changeLote } = useContext(CampoContext);
+const AnimalDetails = ({ title, id, name }) => {
+  const { changeLote, getCant } = useContext(CampoContext);
+  const [cantidad, setCantidad] = useState(parseInt(getCant(id, name)));
 
   const handleTextChange = e => {
     if (isNaN(e)) {
       alert('Debes ingresar un numero');
-      setCantidad(parseInt(cant));
+      setCantidad(parseInt(cantidad));
     } else if (e === '') {
       setCantidad(0);
+      changeLote(id, name, 0);
     } else if (e === '  ' || e === ' ') {
-      setCantidad(parseInt(cant));
+      setCantidad(0);
 
-      changeLote(id, name, cantidad);
+      changeLote(id, name, parseInt(e));
+    } else if (e.length > 4) {
+      alert('Solo es permitido un numero con un maximo de 4 caracteres.');
     } else {
       setCantidad(parseInt(e));
-      changeLote(id, name, cantidad);
+      changeLote(id, name, parseInt(e));
     }
   };
   return (
@@ -38,45 +41,16 @@ const AnimalDetails = ({ cant, title, id, name }) => {
       <View style={styles.subContainer}>
         <View style={styles.name}>
           <Text style={styles.text}>
-            {title} : {cantidad}
+            {title} : {getCant(id, name)}
           </Text>
         </View>
         <TextInput
           value={cantidad.toString()}
-          placeholder={cant}
           keyboardType='numeric'
           onChangeText={handleTextChange}
           style={styles.textInput}
         />
         <Text styles={{ display: 'float' }}></Text>
-
-        {/*  <TouchableOpacity
-          onPress={() => {
-            /* do this */
-        /*  }}
-        >
-          <View style={styles.btnAgregar}>
-            <Text style={styles.textBtn}>+1</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            /* do this */
-        /*   }}
-        >
-          <View style={styles.btnRestar}>
-            <Text style={styles.textBtn}>-1</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            /* do this */
-        /*    }}
-        >
-          <View style={styles.btnReset}>
-            <Text style={styles.textBtn}>*10</Text>
-          </View>
-        </TouchableOpacity>*/}
       </View>
     </View>
   );

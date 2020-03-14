@@ -13,15 +13,7 @@ import { FontAwesomeIcon } from '@expo/vector-icons';
 import AnimalDetails from '../components/AnimalDetails';
 
 const LoteDetails = ({ navigation, route }) => {
-  const {
-    vacas,
-    vaquillonas,
-    terneros,
-    terneras,
-    toros,
-    title,
-    id
-  } = route.params;
+  const { title, id } = route.params;
 
   return (
     <View style={styles.container}>
@@ -29,26 +21,12 @@ const LoteDetails = ({ navigation, route }) => {
         <Text style={styles.title}>{title} </Text>
         <Text style={styles.cantidad}>Cambiar Cantidad:</Text>
       </View>
-      <AnimalDetails id={id} name={'vacas'} cant={vacas} title='Vacas' />
-      <AnimalDetails
-        id={id}
-        name={'vaquillonas'}
-        cant={vaquillonas}
-        title='Vaquillonas'
-      />
-      <AnimalDetails
-        id={id}
-        name={'terneros'}
-        cant={terneros}
-        title='Terneros'
-      />
-      <AnimalDetails
-        id={id}
-        name={'terneras'}
-        cant={terneras}
-        title='Terneras'
-      />
-      <AnimalDetails id={id} name={'toros'} cant={toros} title='Toros' />
+      <AnimalDetails id={id} name={'vacas'} title='Vacas' />
+      <AnimalDetails id={id} name={'vaquillonas'} title='Vaquillonas' />
+      <AnimalDetails id={id} name={'terneros'} title='Terneros' />
+      <AnimalDetails id={id} name={'terneras'} title='Terneras' />
+      <AnimalDetails id={id} name={'novillos'} title='Novillos' />
+      <AnimalDetails id={id} name={'toros'} title='Toros' />
 
       {/**
        *  LA PROXIMA AGREGAR TEXTINPUT PARA CADA ELEMENTO CON UN SAVE INDIVIDUAL
@@ -58,7 +36,7 @@ const LoteDetails = ({ navigation, route }) => {
        */}
 
       <View style={styles.btn}>
-        <Button title='Los cambios realizador se guardan automaticamente'></Button>
+        <Button title='Los cambios realizados se guardan automaticamente'></Button>
       </View>
     </View>
   );
