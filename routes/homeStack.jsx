@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import Home from './../screens/home';
 import Header from '../shared/header';
 import LoteDetails from './../screens/loteDetails';
+import Total from './../screens/total';
+import CustomModal from '../screens/customModal';
 
 const Stack = createStackNavigator();
 
@@ -47,6 +49,36 @@ export const Navigator = ({ navigation }) => {
                 <Header
                   navigation={navigation}
                   title='Lista de Animales'
+                  route={route}
+                />
+              )
+            };
+          }}
+        />
+        <Stack.Screen
+          name='Total'
+          component={Total}
+          options={({ route, navigation }) => {
+            return {
+              headerTitle: () => (
+                <Header
+                  navigation={navigation}
+                  title='Cantidad Total: '
+                  route={route}
+                />
+              )
+            };
+          }}
+        />
+        <Stack.Screen
+          name='CustomModal'
+          component={CustomModal}
+          options={({ route, navigation }) => {
+            return {
+              headerTitle: () => (
+                <Header
+                  navigation={navigation}
+                  title='Editar nombre : '
                   route={route}
                 />
               )

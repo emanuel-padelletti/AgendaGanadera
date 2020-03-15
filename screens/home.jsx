@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,11 +6,9 @@ import {
   TouchableOpacity,
   FlatList,
   Alert,
-  Button,
   TextInput,
-  SafeAreaView
+  Modal
 } from 'react-native';
-import Constants from 'expo-constants';
 import { NavigationContainer } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import CampoContext from '../contexts/camposContext';
@@ -23,10 +21,13 @@ const Home = ({ navigation }) => {
     addLote(name);
     setNameCampo('');
   };
+  const handleEditName = id => {
+    setModalVisibility(true);
+  };
 
   return (
     <View style={styles.container}>
-      <View style={{ borderColor: 'green', borderWidth: 3 }}>
+      <View style={{ borderColor: '#95bf88', borderWidth: 2 }}>
         <TextInput
           maxLength={18}
           value={nameCampo}
@@ -35,19 +36,39 @@ const Home = ({ navigation }) => {
           style={styles.textInput}
         />
       </View>
-      <Button
+      <TouchableOpacity
+        style={{
+          alignItems: 'center',
+          backgroundColor: '#4f4d3f',
+          padding: 8
+        }}
         onPress={() =>
           nameCampo.length < 3
             ? alert('Ingrese un nombre con una longitud mayor a 3 caracteres.')
             : handleNewLote(nameCampo)
         }
-        title='Agregar Nuevo Lote'
-      ></Button>
+      >
+        <Text style={{ fontSize: 22, color: 'white', fontWeight: 'bold' }}>
+          Agregar nuevo Lote
+        </Text>
+      </TouchableOpacity>
+
       {/*<Button onPress={() => deleteLote(2)} title='Delete'></Button>*/}
       {!lotes ? (
         <Text>Cargando Datos . . . </Text>
       ) : (
         <View style={styles.safeArea}>
+          <View class={styles.card}>
+            <TouchableOpacity
+              style={styles.btnTotal}
+              onPress={() => navigation.navigate('Total')}
+            >
+              <View style={styles.TotalBtn}>
+                <Text style={styles.textBtn2}>Cantidad Total</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
           <FlatList
             style={styles.flatList}
             keyExtractor={item => item.id}
@@ -59,7 +80,29 @@ const Home = ({ navigation }) => {
                   onPress={() => navigation.navigate('LoteDetails', item)}
                 >
                   <View style={styles.textBtn}>
-                    <Text style={styles.textBtn2}>- {item.title}</Text>
+                    <MaterialIcons
+                      onPress={() =>
+                        Alert.alert(
+                          'Alerta',
+                          `¿ Esta seguro que desea cambiar el nombre del lote: ${item.title} ?`,
+                          [
+                            {
+                              text: 'Cancelar',
+                              onPress: () => console.log('Cancel presseds')
+                            },
+                            {
+                              text: 'Si',
+                              onPress: () =>
+                                navigation.navigate('CustomModal', item.id)
+                            }
+                          ]
+                        )
+                      }
+                      name='edit'
+                      size={26}
+                      style={{ color: 'white', marginHorizontal: 0 }}
+                    />
+                    <Text style={styles.textBtn2}>{item.title}</Text>
 
                     <MaterialIcons
                       onPress={() =>
@@ -86,8 +129,6 @@ const Home = ({ navigation }) => {
           />
         </View>
       )}
-
-      {/*<Button onPress={} title='La id'></Button>*/}
     </View>
   );
 };
@@ -110,8 +151,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginVertical: 15,
-    marginHorizontal: 70,
-    width: 270,
+    marginHorizontal: 60,
+    width: 300,
     height: 40,
     borderRadius: 1,
     borderColor: 'black',
@@ -146,8 +187,20 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     borderRadius: 5
   },
+  btnTotal: {
+    marginHorizontal: 18,
+    marginVertical: 12,
+    padding: 13,
+    justifyContent: 'center',
+    backgroundColor: '#50585e',
+    shadowColor: '#2AC062',
+    shadowOpacity: 0.4,
+    shadowOffset: { height: 10, width: 0 },
+    shadowRadius: 20,
+    borderRadius: 5
+  },
 
-  container: { flex: 0.9 },
+  container: { flex: 0.75 },
   textBtn: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -155,5 +208,28 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 24,
     fontWeight: 'bold'
+  },
+  TotalBtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginRight: 20,
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+  modalText: {
+    color: 'black',
+    fontSize: 30,
+    margin: 30,
+    fontWeight: 'bold',
+    marginLeft: 30
+  },
+  modalBtn: {
+    backgroundColor: '#F7F7F7',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+
+    fontSize: 28,
+    color: 'grey'
   }
 });

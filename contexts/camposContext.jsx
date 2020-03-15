@@ -41,6 +41,10 @@ export const CampoContextProvider = ({ children }) => {
       console.log('Error al intentar eliminar desde Sqlite');
     }
   };
+  //Returns an object with key values
+  getTotal = () => {
+    return lotes;
+  };
 
   loadLotes = async () => {
     try {
@@ -75,7 +79,7 @@ export const CampoContextProvider = ({ children }) => {
 
   return (
     <CampoContext.Provider
-      value={{ lotes, addLote, deleteLote, changeLote, getCant }}
+      value={{ lotes, addLote, deleteLote, changeLote, getCant, getTotal }}
     >
       {children}
     </CampoContext.Provider>

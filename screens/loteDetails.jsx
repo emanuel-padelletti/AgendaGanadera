@@ -4,12 +4,9 @@ import {
   Text,
   View,
   TouchableOpacity,
-  KeyboardTypeAndroid,
   Button,
-  TextInput,
-  DrawerLayoutAndroidComponent
+  TextInput
 } from 'react-native';
-import { FontAwesomeIcon } from '@expo/vector-icons';
 import AnimalDetails from '../components/AnimalDetails';
 
 const LoteDetails = ({ navigation, route }) => {
